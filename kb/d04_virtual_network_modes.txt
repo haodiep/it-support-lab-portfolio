@@ -80,8 +80,8 @@ Use cases:
 
 Current lab configuration:
 
-- WS01: Host-only
-- CL01: Host-only
+- WS01: NAT network + Host-only
+- CL01: NAT network + Host-only
 - LNX01: NAT + Host-only
 
 Design rationale:
