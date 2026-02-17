@@ -1,0 +1,26 @@
+# Lab - Windows Server Setup
+
+## Objective
+Verify Windows Server installation and network configuration.
+
+## Environment
+- VM: DC01
+- OS: Windows Server 2022
+- Network: Host-only (192.168.56.0/24)
+
+## Steps
+1. Boot DC01
+2. Run network check:
+   ipconfig /all
+3. Verify hostname:
+   hostname
+4. Verify system info:
+   systeminfo | findstr /B /C:"OS Name" /C:"OS Version"
+5. Create snapshot "snap_server_base"
+
+## Result
+- Server booted successfully
+- Network configured correctly
+- Host-only connectivity verified
+- Baseline snapshot created
+

@@ -1,0 +1,19 @@
+# Lab 02 - Windows Client Setup
+
+## Objective
+Verify Windows Client network configuration and create fresh install snapshot.
+
+## Environment
+- VM: CL01
+- Network: Host-only (192.168.56.0/24)
+
+## Steps
+1. Boot CL01
+2. Run ipconfig /all
+3. Verify IP address
+4. Create snapshot "snap_fresh"
+
+## Result
+- Windows booted successfully
+- Network connected
+- Snapshot created

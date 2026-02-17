@@ -1,0 +1,28 @@
+# Lab - Linux Client Setup
+
+## Objective
+Verify Linux VM network configuration and create baseline snapshot.
+
+## Environment
+- VM: LNX01
+- OS: Ubuntu / Linux Mint
+- Network:
+  - Adapter 1: NAT
+  - Adapter 2: Host-only (192.168.56.0/24)
+
+## Steps
+1. Boot Linux VM
+2. Check IP address:
+   ip a
+3. Check routing table:
+   ip route
+4. Test connectivity:
+   ping -c 3 8.8.8.8
+   ping -c 3 192.168.56.1
+5. Create snapshot "snap_baseline"
+
+## Result
+- Linux booted successfully
+- NAT and Host-only working
+- Internet accessible
+- Snapshot created
