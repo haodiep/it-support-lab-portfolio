@@ -1,0 +1,102 @@
+# KB: VirtualBox Network Modes (NAT vs Host-only vs Internal)
+
+## 1. Purpose
+This document explains the different network modes available in VirtualBox and when to use each mode in an Infrastructure lab environment.
+
+---
+
+## 2. Environment
+- Hypervisor: VirtualBox
+- Host-only subnet: 192.168.56.0/24
+- Virtual Machines:
+  - WS01 (Windows Server)
+  - CL01 (Windows Client)
+  - LNX01 (Linux)
+
+---
+
+## 3. Definitions
+
+### 3.1 NAT (Network Address Translation)
+
+In NAT mode, the virtual machine accesses the Internet through the host machine.
+
+Characteristics:
+- Internet access is available
+- The host cannot initiate connections to the VM (by default)
+- VMs cannot communicate with each other unless additional configuration is applied
+
+Use cases:
+- Updating Linux packages
+- Downloading tools or dependencies
+- Testing outbound connectivity
+
+---
+
+### 3.2 Host-only Network
+
+In Host-only mode, the VM and the host share a private internal subnet.
+
+Characteristics:
+- No Internet access (by default)
+- VM-to-VM communication is allowed
+- Host-to-VM communication is allowed
+
+Use cases:
+- Active Directory lab
+- Internal DNS testing
+- Packet capture and network troubleshooting
+- Simulated internal LAN environment
+
+---
+
+### 3.3 Internal Network
+
+In Internal Network mode, VMs can communicate only with other VMs connected to the same internal network.
+
+Characteristics:
+- No Internet access
+- The host cannot access the VMs
+- VM-to-VM communication is allowed
+
+Use cases:
+- Isolated testing environments
+- Malware simulation labs
+- Simulated production network segments
+
+---
+
+## 4. Comparison Table
+
+| Mode        | Internet Access | Host Access | VM-to-VM Communication |
+|------------|------------------|-------------|------------------------|
+| NAT        | Yes              | No          | No (default)           |
+| Host-only  | No               | Yes         | Yes                    |
+| Internal   | No               | No          | Yes                    |
+
+---
+
+## 5. Lab Mapping
+
+Current lab configuration:
+
+- WS01: Host-only
+- CL01: Host-only
+- LNX01: NAT + Host-only
+
+Design rationale:
+- Host-only network is used for internal lab communication.
+- NAT is used on LNX01 to allow Internet access for updates and package installation.
+
+---
+
+## 6. Troubleshooting Notes
+
+If ping does not work between VMs:
+
+1. Verify that all machines are in the same subnet.
+2. Check Windows Firewall settings (ICMP inbound rules).
+3. Confirm the correct network adapter mode is selected.
+4. Validate IP configuration using:
+   - `ipconfig /all` (Windows)
+   - `ip a` (Linux)
