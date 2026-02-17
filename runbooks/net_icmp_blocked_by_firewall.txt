@@ -1,0 +1,36 @@
+# Issue: Linux ping Windows fails (ICMP blocked)
+
+## Environment:
+Same subnet (192.168.56.0/24)
+Linux client (LNX01)
+Windows client/server (CL01 / WS01)
+
+## SYMPTOMS
+From Linux: ping <Windows_IP> → 100% packet loss
+From Windows: ping <Linux_IP> → success
+IP address correct
+Same host-only network
+
+## ROOT CAUSE
+Windows Defender Firewall blocks inbound ICMP (Echo Request).
+
+## FIX (PowerShell - Run as Administrator)
+Enable ICMP inbound rule:
+Enable-NetFirewallRule -DisplayName "File and Printer Sharing (Echo Request - ICMPv4-In)"
+
+## VALIDATION
+From Linux:
+ping -c 3 <Windows_IP>
+
+## Expected result:
+0% packet loss
+Ping reply received
+
+### Optional:
+Verify in Wireshark with filter:
+icmp
+
+## ROLLBACK (if needed)
+Disable-NetFirewallRule -DisplayName "File and Printer Sharing (Echo Request - ICMPv4-In)"
+
+END OF RUNBOOK
