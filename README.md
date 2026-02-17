@@ -55,18 +55,6 @@ career/ → Job application materials
 
 Detailed daily plan is documented in project notes.
 
----
-
-## Completed Labs
-
-| Day | Topic | Status |
-|-----|-------|--------|
-| D01 | Repository setup | ✅ |
-| D02 | VirtualBox networking | ✅ |
-| D03 | Linux dual NIC | ⏳ |
-| D04 | Network modes | ⏳ |
-
-(This table is updated as the project progresses.)
 
 ---
 
