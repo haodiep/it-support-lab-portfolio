@@ -22,7 +22,7 @@ All labs are documented with evidence, runbooks, and knowledge base articles.
 - Main VMs:
   - DC01 (Windows Server – Domain Controller)
   - Linux VMs (Ubuntu)
-  - Windows Client (future)
+  - Windows Client (Windows 11)
 
 Network Design:
 - NAT Network: Internet access
