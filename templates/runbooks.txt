@@ -1,0 +1,19 @@
+# Runbook: <Issue Name>
+
+## Symptom
+Describe the problem and observed behavior.
+
+## Environment
+VMs, network mode, OS version, and related systems.
+
+## Root Cause
+Identify the root cause of the issue.
+
+## Resolution
+Step-by-step instructions to resolve the issue.
+
+## Validation
+How to verify that the issue has been resolved.
+
+## Rollback
+Steps to revert changes if the fix fails.

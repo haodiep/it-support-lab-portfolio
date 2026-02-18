@@ -1,0 +1,13 @@
+# KB: <Topic>
+
+## Purpose
+Explain the purpose of this document.
+
+## Scenario
+Describe the situation where this applies.
+
+## Steps
+Detailed procedures to follow.
+
+## Notes
+Additional tips, warnings, and best practices.
