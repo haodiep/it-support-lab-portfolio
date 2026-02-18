@@ -1,0 +1,35 @@
+## Week 1 Summary (D01–D07)
+
+### Focus
+- Repository setup and documentation
+- VirtualBox networking (NAT + Host-only)
+- Linux and Windows VM deployment
+- Basic connectivity testing
+- Portfolio structure and templates
+
+### Key Achievements
+- Initialized GitHub lab portfolio
+- Created standardized folder structure
+- Deployed 3 VMs with dual NICs
+- Configured host-only network (192.168.56.0/24)
+- Captured baseline snapshots
+- Added runbook and KB templates
+
+### Skills Practiced
+- Git workflow (add/commit/push/pull)
+- VirtualBox network configuration
+- IP verification (ip a, ipconfig)
+- Basic troubleshooting (ping, routing)
+- Technical documentation
+
+### Challenges & Lessons
+- Resolved Git push conflicts using pull/merge
+- Improved understanding of network modes
+- Learned importance of documentation first
+
+### Next Week Plan (D08–D14)
+- IP addressing and subnet planning
+- DHCP configuration
+- Internal network testing
+- DNS troubleshooting scenario
+- Network diagram and KB creation
