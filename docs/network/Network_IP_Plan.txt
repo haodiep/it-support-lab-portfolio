@@ -1,0 +1,82 @@
+# Network IP Plan – Lab Environment
+
+## 1. Purpose
+
+This document defines the IP addressing design for the Infrastructure/Security lab.
+The goal is to maintain consistent addressing for troubleshooting, service deployment,
+and future expansion (AD, DNS, DHCP).
+
+---
+
+## 2. Network Overview
+
+### 2.1 NAT Network
+- Purpose: Internet access (updates, downloads)
+- Managed by: VirtualBox NAT
+- Not used for internal services
+
+### 2.2 Host-only Network
+- Subnet: 192.168.56.0/24
+- Subnet Mask: 255.255.255.0
+- Purpose: Internal lab LAN (VM ↔ VM communication)
+
+---
+
+## 3. Address Allocation Plan
+
+### 3.1 Reserved Addresses
+
+192.168.56.1 – Host-only adapter (VirtualBox)
+192.168.56.10–19 – Reserved for servers
+192.168.56.20–99 – Client range
+192.168.56.100–200 – Future expansion / testing
+
+---
+
+## 4. Current VM Assignment
+
+| Machine | Role | Interface | IP Address | Type |
+|----------|------|-----------|------------|------|
+| WS01 | Windows Server | Host-only | 192.168.56.10 | Static |
+| CL01 | Windows Client | Host-only | 192.168.56.20 | Static |
+| LNX01 | Linux Client | Host-only | 192.168.56.30 | Static |
+
+---
+
+## 5. DNS Strategy
+
+Current State:
+- No internal DNS deployed yet.
+
+Planned:
+- WS01 will host internal DNS service.
+- All clients will use 192.168.56.10 as primary DNS.
+
+---
+
+## 6. DHCP Strategy
+
+Current State:
+- IP addresses manually configured (static).
+
+Planned:
+- DHCP service may be deployed on WS01 in later phase.
+- Planned DHCP scope: 192.168.56.50–100
+
+---
+
+## 7. Design Rationale
+
+- Static IP used for server stability.
+- Host-only network isolates internal lab traffic.
+- NAT interface reserved for Internet access only.
+- IP ranges separated for easier troubleshooting and scaling.
+
+---
+
+## 8. Future Expansion
+
+Potential additional VMs:
+- DC01 (Domain Controller) – 192.168.56.11
+- FS01 (File Server) – 192.168.56.12
+- Security Testing VM – 192.168.56.50+
