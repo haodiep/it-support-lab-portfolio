@@ -37,7 +37,7 @@ and future expansion (AD, DNS, DHCP).
 
 | Machine | Role | Interface | IP Address | Type |
 |----------|------|-----------|------------|------|
-| WS01 | Windows Server | Host-only | 192.168.56.10 | Static |
+| DC01 | Windows Server | Host-only | 192.168.56.10 | Static |
 | CL01 | Windows Client | Host-only | 192.168.56.20 | Static |
 | LNX01 | Linux Client | Host-only | 192.168.56.30 | Static |
 
