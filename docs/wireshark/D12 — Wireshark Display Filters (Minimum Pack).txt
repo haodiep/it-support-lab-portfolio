@@ -1,0 +1,102 @@
+# D12 — Wireshark Display Filters (Minimum Pack)
+
+## Purpose
+Build a minimum set of Wireshark display filters (DNS/TCP/ICMP) for troubleshooting in the lab, and validate using screenshots from real traffic in the current lab architecture.
+
+## Lab Architecture (current)
+- Host-only network: 192.168.56.0/24
+- DC01: 192.168.56.10 (DNS + DHCP)
+- LNX01: 192.168.56.20 (DHCP from DC01)
+- Capture interface on LNX01: enp0s8 (host-only)
+
+## Capture Filter vs Display Filter (very important)
+### Capture filter
+- Applied before packets are captured.
+- Packets that don’t match are not saved.
+- Use when you want to reduce capture size.
+
+### Display filter
+- Applied after packets are captured.
+- Packets are still there; you only change what you see.
+- Best for analysis, learning protocols, and writing reusable troubleshooting filters.
+
+## Minimum Display Filter Pack (v1)
+
+### A) DNS
+1. Show all DNS:
+   - dns
+
+2. DNS related to DC01:
+   - dns && ip.addr == 192.168.56.10
+
+3. DNS queries only:
+   - dns.flags.response == 0
+
+4. DNS responses only:
+   - dns.flags.response == 1
+
+5. Filter by query name (example.com):
+   - dns.qry.name contains "example.com"
+
+6. NXDOMAIN only (domain does not exist):
+   - dns.flags.rcode == 3
+
+### B) ICMP (Ping)
+7. Show all ICMP:
+   - icmp
+
+8. ICMP only between LNX01 and DC01:
+   - icmp && ip.addr == 192.168.56.20 && ip.addr == 192.168.56.10
+
+9. Echo request only:
+   - icmp.type == 8
+
+10. Echo reply only:
+   - icmp.type == 0
+
+### C) TCP
+11. Show all TCP:
+   - tcp
+
+12. Show HTTPS traffic:
+   - tcp.port == 443
+
+13. SYN packets (new connection attempts):
+   - tcp.flags.syn == 1 && tcp.flags.ack == 0
+
+14. TCP Reset packets:
+   - tcp.flags.reset == 1
+
+### D) IP (scope filters)
+15. All traffic involving DC01:
+   - ip.addr == 192.168.56.10
+
+16. All traffic inside host-only subnet:
+   - ip.addr == 192.168.56.0/24
+
+## Lab Evidence (screenshots)
+### Evidence: DNS OK via DC01
+- Filter used: dns && ip.addr == 192.168.56.10
+- Expected: query from 192.168.56.20` to 192.168.56.10 and response back.
+- Screenshot:
+  - evidence/d12_filter_dns_dc01.png
+
+### Evidence: ICMP Ping to DC01
+- Filter used: icmp
+- Expected: echo request/reply between 192.168.56.20 and 192.168.56.10.
+- Screenshot:
+  - evidence/d12_filter_icmp_dc01.png
+
+### Bonus Evidence: DNS packets exist but curl cannot resolve (dual-NIC DNS priority)
+- Symptom: curl: (6) Could not resolve host: example.com
+- Observation: Wireshark still shows DNS query/response traffic on host-only.
+- Likely cause: DNS upstream selection/priority issue when the VM has both NAT + host-only NICs (systemd-resolved may prefer NAT DNS).
+- Screenshot:
+  - evidence/d12_dns_packets_but_curl_fail.png
+- Runbook (fix + validation):
+  - runbooks/RB-lnx-dns-priority-curl-cannot-resolve.md
+
+## Notes / What I learned
+- Display filters are ideal for troubleshooting because they preserve all packets.
+- In multi-NIC VMs, “DNS works” in Wireshark does not always mean applications will resolve successfully.
+  You must also verify resolver behavior (resolvectl status/query) and upstream DNS selection.
