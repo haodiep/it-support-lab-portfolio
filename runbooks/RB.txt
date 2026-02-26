@@ -1,0 +1,43 @@
+# ISSUE: VirtualBox Rogue DHCP on Host-Only Network (GUI shows Disabled)
+
+## ENVIRONMENT
+Host: Windows 11, Oracle VirtualBox
+Network: VirtualBox Host-Only 192.168.56.0/24 (Host IP 192.168.56.1)
+DC01: Windows Server, host-only static 192.168.56.10, roles: DHCP/DNS
+Clients: CL01 (Windows), LNX01 (Ubuntu) using DHCP on host-only
+
+## SYMPTOMS
+VMs on the host-only network 192.168.56.0/24 receive an unexpected IP lease.
+DHCP appears disabled in VirtualBox GUI / host-only adapter settings, but clients still get leases from 192.168.56.100.
+On Ubuntu client, dhclient -v shows DHCPOFFER/DHCPACK from 192.168.56.100.
+
+## ROOT CAUSE
+A leftover/ghost VirtualBox DHCP server entry exists for the host-only network (e.g., Dhcpd IP: 192.168.56.100). Even when GUI shows “DHCP Disabled,” a rogue DHCP service/entry can still issue leases and conflict with DC01 DHCP.
+
+## RESOLUTION
+### Confirm rogue DHCP on client
+Ubuntu: sudo dhclient -v enp0s8 (look for from 192.168.56.100)
+Windows: ipconfig /all (check DHCP Server)
+
+### Check VirtualBox DHCP entries on Host (PowerShell Admin)
+"C:\Program Files\Oracle\VirtualBox\VBoxManage.exe"
+list dhcpservers
+
+### Remove the VirtualBox DHCP server entry for host-only
+Use the exact NetworkName from step 2:
+dhcpserver remove --network="<NetworkName>"
+
+### Renew leases on clients
+Ubuntu: sudo dhclient -r enp0s8; sudo dhclient -v enp0s8
+Windows: ipconfig /release then ipconfig /renew
+
+## VALIDATION
+list dhcpservers shows no rogue entry for 192.168.56.0/24.
+Ubuntu dhclient -v receives offer/ack from 192.168.56.10 (DC01), not 192.168.56.100.
+Windows ipconfig /all shows DHCP Server: 192.168.56.10.
+
+ROLLBACK (if needed)
+If removal was incorrect, re-add VirtualBox DHCP (only if you intentionally want VirtualBox to provide DHCP):
+dhcpserver add --network="<NetworkName>" --server-ip=192.168.56.100 --lower-ip=192.168.56.101 --upper-ip=192.168.56.254 --netmask=255.255.255.0 --enable
+
+Then renew client leases again.
