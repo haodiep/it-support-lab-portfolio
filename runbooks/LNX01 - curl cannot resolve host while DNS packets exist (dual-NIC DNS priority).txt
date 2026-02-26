@@ -1,0 +1,79 @@
+# Runbook: LNX01 - curl cannot resolve host while DNS packets exist (dual-NIC DNS priority)
+
+## Symptom
+- On LNX01: curl -I https://example.com returns:
+  - curl: (6) Could not resolve host: example.com
+- Wireshark (capture on host-only enp0s8) shows DNS query/response between:
+  - Client: 192.168.56.20
+  - DNS: 192.168.56.10 (DC01)
+- Evidence screenshot:
+  - `evidence/d12_dns_packets_but_curl_fail.png`
+
+## Environment
+- Host: Windows 11 + VirtualBox
+- Host-only network: 192.168.56.0/24 (Host: 192.168.56.1)
+- DC01 (Windows Server): 192.168.56.10 (DNS + DHCP)
+- LNX01 (Ubuntu):
+  - NIC1 NAT: enp0s3 (10.0.2.x)
+  - NIC2 Host-only: enp0s8 (192.168.56.20 DHCP from DC01)
+- Resolver: systemd-resolved (stub /etc/resolv.conf -> 127.0.0.53)
+
+## Root Cause
+Dual-NIC DNS selection/priority issue:
+- systemd-resolved/NetworkManager may prefer the DNS uplink from NAT (enp0s3),
+  even though host-only (enp0s8) is configured to use DC01 DNS.
+- Applications (curl) may query DNS via the wrong upstream, causing resolution failure.
+
+## Resolution
+### Step 1 — Confirm DNS per interface
+Run:
+- resolvectl status
+Check:
+- enp0s8 DNS = 192.168.56.10
+- enp0s3 DNS != 192.168.56.10 (NAT side)
+
+### Step 2 — Fix (persistent) by controlling DNS via NetworkManager
+1) Identify connection names:
+- nmcli con show
+Expected examples:
+- NAT: netplan-enp0s3
+- Host-only: hostonly-dhcp
+
+2) Disable auto DNS on NAT (enp0s3):
+- sudo nmcli con mod "netplan-enp0s3" ipv4.ignore-auto-dns yes
+- sudo nmcli con mod "netplan-enp0s3" ipv4.dns ""
+
+3) Force DC01 DNS on host-only (enp0s8):
+- sudo nmcli con mod "hostonly-dhcp" ipv4.ignore-auto-dns yes
+- sudo nmcli con mod "hostonly-dhcp" ipv4.dns "192.168.56.10"
+- sudo nmcli con mod "hostonly-dhcp" ipv4.dns-search "lab.local"
+
+4) Apply + restart resolver:
+- sudo nmcli con up "netplan-enp0s3"
+- sudo nmcli con up "hostonly-dhcp"
+- sudo systemctl restart systemd-resolved
+- sudo resolvectl flush-caches
+
+### Optional (fast runtime fix - may not persist reboot)
+- sudo resolvectl dns enp0s8 192.168.56.10
+- sudo resolvectl dns enp0s3 ""
+- sudo resolvectl flush-caches
+
+## Validation
+Run:
+- resolvectl query example.com
+- curl -I https://example.com
+
+Pass if:
+- resolvectl query returns A/AAAA records
+- curl returns HTTP headers (e.g., HTTP/2 200)
+
+## Rollback
+Restore default behavior (let NAT provide DNS again):
+- sudo nmcli con mod "netplan-enp0s3" ipv4.ignore-auto-dns no
+- sudo nmcli con mod "hostonly-dhcp" ipv4.ignore-auto-dns no
+- sudo nmcli con mod "hostonly-dhcp" ipv4.dns ""
+- sudo nmcli con mod "hostonly-dhcp" ipv4.dns-search ""
+- sudo nmcli con up "netplan-enp0s3"
+- sudo nmcli con up "hostonly-dhcp"
+- sudo systemctl restart systemd-resolved
