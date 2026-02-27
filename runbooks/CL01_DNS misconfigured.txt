@@ -1,0 +1,28 @@
+# Runbook: DNS misconfigured → cannot resolve domain names
+
+## Symptom
+- nslookup example.com times out / fails
+- Apps cannot resolve hostnames (DNS resolution failure)
+
+## Environment
+- Host-only: 192.168.56.0/24
+- DNS server: DC01 (192.168.56.10)
+- Client: CL01 (Ethernet 2: 192.168.56.21)
+
+## Root Cause
+Client DNS server address was misconfigured (e.g., 192.168.56.254). The DNS IP was unreachable, so queries could not be delivered.
+
+## Resolution
+1. Set client DNS back to DC01:
+   - Set-DnsClientServerAddress -InterfaceAlias "Ethernet 2" -ServerAddresses 192.168.56.10
+2. Flush DNS cache:
+   - ipconfig /flushdns
+
+## Validation
+- nslookup example.com 192.168.56.10 returns A/AAAA records
+- Wireshark shows DNS query/response between 192.168.56.21 and 192.168.56.10
+
+## Rollback
+- Reset DNS to DHCP-provided settings:
+  - Set-DnsClientServerAddress -InterfaceAlias "Ethernet 2" -ResetServerAddresses
+  - ipconfig /renew
