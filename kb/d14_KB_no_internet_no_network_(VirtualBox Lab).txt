@@ -1,0 +1,69 @@
+# KB: No Internet / No Network (VirtualBox Lab)
+
+## Purpose
+Provide a repeatable checklist to troubleshoot “no internet / no network” issues in my VirtualBox lab.  
+This KB helps quickly isolate whether the problem is on the NAT side (internet path) or the Host-only side (internal lab path), and documents what evidence to collect for a support-style workflow.
+
+## Scenario
+Applies to my lab environment:
+- Host OS: Windows 11 + VirtualBox
+- Host-only subnet: 192.168.56.0/24 (Host: 192.168.56.1)
+- DC01 (Windows Server): Host-only static 192.168.56.10, provides DHCP + DNS (scope 192.168.56.20–99)
+- CL01 (Windows Client): Host-only DHCP from DC01
+- LNX01 (Ubuntu): Host-only DHCP from DC01
+- VirtualBox Host-only DHCP is removed (no rogue DHCP expected)
+
+Common symptoms:
+- Websites don’t load
+- Can ping IP but cannot resolve domain (DNS issue)
+- No IP lease on Host-only adapter (DHCP issue)
+- Cannot reach DC01 on 192.168.56.10 (Host-only connectivity issue)
+
+## Steps
+## Steps
+1) Identify the scope (NAT vs Host-only)
+- On CL01: ipconfig /all
+- NAT adapter should have 10.0.2.x
+- Host-only adapter should have 192.168.56.x (DHCP from DC01)
+- Host-only DHCP Server should be 192.168.56.10
+
+2) Verify VirtualBox NIC settings
+- Adapter 1 = NAT
+- Adapter 2 = Host-only Adapter (vboxnet0)
+
+3) Test Host-only connectivity (internal path)
+- ping 192.168.56.10 (DC01)
+- ping 192.168.56.1 (Host)
+
+4) Renew DHCP lease (Host-only) if IP is missing/wrong
+- ipconfig /release
+- ipconfig /renew
+- Confirm Host-only IP is within 192.168.56.20–99
+
+5) Test internet by IP (separate DNS from connectivity)
+- ping 8.8.8.8
+
+6) Validate DNS resolution
+- nslookup example.com
+- nslookup example.com 192.168.56.10
+
+7) Check default route (NAT path)
+- route print
+- Confirm a default route (0.0.0.0) exists via the NAT adapter
+
+8) Server-side checks on DC01 (when DHCP/DNS fails)
+- Confirm DHCP scope is active and issuing leases
+- Confirm DNS service is running
+- Confirm NIC2 is static 192.168.56.10/24
+
+9) Validate after fix (must-do)
+- ping 192.168.56.10
+- nslookup example.com
+- ping 8.8.8.8
+- Open 1 website
+
+## Notes
+- NAT is the default “internet path” for VMs; Host-only is for internal lab services (DHCP/DNS/AD testing).
+- If internet fails but Host-only works, suspect NAT/default route.
+- If domain resolution fails but IP ping works, suspect DNS (likely DC01 for Host-only tests).
+- Since VirtualBox Host-only DHCP is removed, any unexpected DHCP server should be treated as a misconfiguration.
