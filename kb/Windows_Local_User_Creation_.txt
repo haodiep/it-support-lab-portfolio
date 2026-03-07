@@ -1,0 +1,98 @@
+# KB: Windows Local User Creation and Basic Event Viewer Check
+
+## Purpose
+This document explains how to create a local user on a Windows client, test sign-in with that user, and review basic events in Event Viewer.
+
+## Scenario
+This applies when a support technician needs to test a local account on a domain-joined PC or review Windows logs during basic troubleshooting.
+
+## Steps
+
+### 1. Create a local user
+Open PowerShell or Command Prompt as Administrator and run:
+
+net user labuser P@ssw0rd! /add
+
+## Verify the account
+
+net user
+net user labuser
+
+
+## 2. Sign in with the local user
+
+Sign out from the current session.
+
+At the sign-in screen, choose Other user and enter:
+.\labuser
+
+Then enter the password created earlier.
+
+
+## 3. Verify current account
+
+After signing in, run:
+whoami
+hostname
+
+
+Expected example:
+cl01\labuser
+CL01
+
+
+## 4. Open Event Viewer
+
+Open Event Viewer from Start menu or run:
+
+eventvwr.msc
+
+
+Go to:
+
+Windows Logs > Application
+Windows Logs > System
+```
+
+## 5. Review one Warning and one Error event
+
+Record:
+
+- Log Name
+- Source
+- Event ID
+- Level
+- Short explanation
+
+## Example Findings
+
+### Warning Event
+
+- Log Name: Application
+- Source: AppModel-State
+- Event ID: 24
+- Level: Warning
+
+Explanation:
+This warning shows that Windows had a problem while checking or repairing state data for a built-in application package.  
+The system was still able to continue running, so this was not a full failure.  
+In support work, I would document the warning and monitor whether it repeats or affects sign-in or application behavior.
+
+### Error Event
+
+- Log Name: Application
+- Source: Security-SPP
+- Event ID: 8198
+- Level: Error
+
+Explanation: 
+This error shows that a Windows license activation task failed in the Software Protection Platform service.  
+In a support context, I would check whether the system has any activation or licensing issue and whether users are affected.  
+If there is no immediate user impact, I would document the event first and escalate only if activation problems continue.
+
+## Notes
+
+- On a domain-joined PC, use `.\username` to sign in with a local account.
+- `net user` is a common command for creating and reviewing local users in Windows.
+- Event Viewer helps technicians review system, application, and service-related issues.
+- Not every warning or error requires immediate action. First compare the event with the actual user symptom.
