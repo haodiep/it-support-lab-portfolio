@@ -1,0 +1,68 @@
+# Windows Network Cheatsheet (D15)
+
+## Purpose
+Quick reference for basic Windows network troubleshooting commands in the lab.
+
+## Lab Context
+- DC01 (DNS/DHCP): 192.168.56.10
+- CL01 gets host-only IP from DHCP
+- Host-only network: 192.168.56.0/24
+
+## Command 1: ipconfig /all
+
+### When to use
+Use this command to view the current network configuration of the client.
+
+### What to check
+- IPv4 address
+- DHCP Enabled
+- DHCP Server
+- DNS Servers
+- Default Gateway
+
+### Example
+```cmd
+ipconfig /all
+
+## Example output notes
+
+- Host-only adapter should have an IP in the range 192.168.56.20-99
+- DHCP should be enabled
+- DHCP Server should be 192.168.56.10
+- DNS Server should be 192.168.56.10
+
+## Command 2: nslookup example.com
+
+### When to use
+Use this command to test DNS name resolution.
+
+### What to check
+- Which DNS server answered
+- Whether the name resolves to an IP address
+
+### Example
+```cmd
+nslookup example.com
+
+### Example output notes
+
+- Server should be 192.168.56.10
+- The domain should resolve successfully
+
+## Quick Decision Guide
+
+### Use ipconfig /all if:
+- You want to verify IP settings
+- You want to check DHCP or DNS configuration
+- You suspect a wrong IP or wrong DNS server
+
+### Use nslookup if:
+- You want to test DNS resolution
+- A website or server name does not resolve
+- You want to confirm which DNS server is being used
+
+## Notes
+
+- ipconfig /all checks local network configuration
+- nslookup checks DNS resolution
+- Both commands are often used together in troubleshooting
