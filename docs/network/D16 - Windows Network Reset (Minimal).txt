@@ -1,0 +1,51 @@
+# D16 - Windows Network Reset (Minimal)
+
+## Objective
+Practice basic Windows network reset steps on CL01 using DNS cache flush and DHCP renew.
+
+## Environment
+- Client: CL01
+- Server: DC01
+- DC01 Host-only IP: 192.168.56.10
+- Services on DC01: AD DS, DNS, DHCP
+- Host-only network: 192.168.56.0/24
+
+## Commands Used
+```cmd
+ipconfig /flushdns
+ipconfig /renew
+ipconfig /all
+nslookup google.com
+
+## Results
+
+- DNS cache was flushed successfully.
+- CL01 renewed network settings successfully.
+- Host-only adapter (Ethernet 2) kept a valid DHCP address: 192.168.56.21
+- DHCP Server: 192.168.56.10
+- DNS Server: 192.168.56.10
+- Name resolution worked correctly through DC01.
+
+## Validation
+
+nslookup google.com returned:
+
+- Server: DC01.lab.local
+- Address: 192.168.56.10
+
+This confirmed that CL01 was using DC01 as its DNS server and DNS resolution was working normally.
+
+## Incident Observed During Testing
+
+During testing, DC01 became unresponsive for a short time. While this happened:
+
+- DHCP renew timed out
+- DNS queries timed out
+
+After DC01 recovered, DHCP and DNS functionality returned to normal.
+
+## Notes
+
+- ipconfig /flushdns clears the local DNS resolver cache.
+- ipconfig /renew requests a new DHCP lease from the DHCP server.
+- These are common first-step commands in Windows network troubleshooting.

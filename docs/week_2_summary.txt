@@ -1,0 +1,37 @@
+## Week 2 Summary (D08–D14)
+
+### Focus
+- IP addressing and subnet planning
+- DHCP scope and client lease testing
+- DNS validation and troubleshooting
+- Packet capture baseline with Wireshark
+- Network diagram and KB documentation
+
+### Key Achievements
+- Planned and documented lab IP structure
+- Verified DHCP assignment for client systems
+- Confirmed DNS resolution through DC01
+- Captured baseline and troubleshooting traffic in Wireshark
+- Created network diagram for lab environment
+- Drafted KB documentation for internal network workflow
+
+### Skills Practiced
+- IP planning and subnet awareness
+- DHCP validation and lease troubleshooting
+- DNS testing with nslookup
+- Windows network checks with ipconfig
+- Packet capture analysis in Wireshark
+- Technical diagramming and KB writing
+
+### Challenges & Lessons
+- Strengthened understanding of how DHCP and DNS work together
+- Improved ability to separate network issues from name resolution issues
+- Learned how packet captures support troubleshooting evidence
+- Saw the value of diagrams and KBs for clearer documentation
+
+### Next Week Plan (D15–D21)
+- DHCP/DNS troubleshooting repetition
+- Client-side repair steps and validation
+- More structured incident documentation
+- Evidence collection for portfolio
+- Stronger troubleshooting flow for interview-style scenarios
