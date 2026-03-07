@@ -109,7 +109,7 @@ Name: Hao Diep
 Location: Canada  
 Focus: IT Support / System Administration / Security
 
-LinkedIn / GitHub: (to be added)
+LinkedIn / GitHub: https://www.linkedin.com/in/thdiep201/
 
 ---
 
