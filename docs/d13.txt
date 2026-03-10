@@ -1,0 +1,22 @@
+# D13 – DNS Failure Scenario
+
+## Objective
+Recreate a DNS issue, investigate it with command-line tools, and capture DNS traffic for evidence.
+
+## Commands
+```powershell
+nslookup example.com
+Test-NetConnection <dns> -Port 53
+
+## Key Results
+
+- Recreated a DNS-related failure scenario in the lab
+- Used `nslookup` and `Test-NetConnection` to investigate the issue
+- Captured DNS traffic in Wireshark for evidence
+- Wrote a runbook with validation and rollback steps
+- Confirmed that the issue could be reproduced, analyzed, and reversed
+
+## What I Learned
+
+A good troubleshooting lab should include both the failure state and the recovery process.  
+This exercise helped me practice structured troubleshooting instead of jumping directly to a fix.

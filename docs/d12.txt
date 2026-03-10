@@ -1,0 +1,22 @@
+# D12 – Wireshark Display Filters
+
+## Objective
+Learn how to use display filters and build a small filter set for common protocols.
+
+## Commands
+```text
+dns
+tcp.port == 53
+icmp
+
+## Key Results
+
+- Practiced using display filters in Wireshark
+- Created a small set of filters for DNS, TCP, and ICMP traffic
+- Documented at least five useful display filters
+- Collected screenshot evidence showing filtered traffic views
+
+## What I Learned
+
+Display filters do not change the capture itself; they only change how captured traffic is viewed.  
+This helped me clearly separate traffic collection from traffic analysis.

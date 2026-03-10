@@ -1,0 +1,21 @@
+# D09 – DHCP Validation
+
+## Objective
+Validate that the lab IP assignment follows the planned addressing method and document DHCP checks.
+
+## Commands
+```bash
+ipconfig /all
+ip a
+
+## Key Results
+
+- Verified that addressing in the lab followed the defined IP plan
+- Confirmed how DHCP or static assignment was being used for the current setup
+- Documented how to validate a lease using `ipconfig /all` or `ip a`
+- Recorded notes about DHCP checks for future troubleshooting
+
+## What I Learned
+
+DHCP validation is not just about getting an IP address.  
+I learned to check whether the client received the correct settings, such as subnet, DNS server, and expected address range.

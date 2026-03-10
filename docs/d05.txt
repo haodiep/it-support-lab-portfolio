@@ -1,0 +1,21 @@
+# D05 – Windows VM Baseline
+
+## Objective
+Create the Windows VM, verify basic networking, and save a fresh-install snapshot.
+
+## Commands
+```powershell
+ipconfig /all
+
+## Key Results
+
+- Created the Windows VM successfully
+- Verified the system booted correctly
+- Collected basic IP information with `ipconfig /all`
+- Took a fresh-install snapshot for rollback
+- Prepared the Windows client for later domain and troubleshooting labs
+
+## What I Learned
+
+Creating a clean Windows baseline makes later troubleshooting more reliable because I can compare changes against a known good state.  
+This also reinforced the value of snapshots before major configuration steps.

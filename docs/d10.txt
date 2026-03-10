@@ -1,0 +1,22 @@
+# D10 – Internal Network Testing
+
+## Objective
+Build and test internal VM-to-VM communication and capture one ICMP session for evidence.
+
+## Commands
+```bash
+ping <peer>
+Wireshark filter: icmp
+
+## Key Results
+
+- Built and tested VM-to-VM internal communication
+- Verified connectivity within the isolated lab path
+- Captured an ICMP session in Wireshark
+- Saved a packet capture and added a short explanation of the traffic
+- Confirmed that internal communication worked independently from Internet access
+
+## What I Learned
+
+Internal network testing is useful because it isolates lab communication from outside dependencies.  
+This helped me better understand the difference between internal connectivity problems and Internet/NAT-related issues.

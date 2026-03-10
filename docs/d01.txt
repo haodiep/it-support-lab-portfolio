@@ -1,0 +1,22 @@
+# D01 – Portfolio Structure Setup
+
+## Objective
+Initialize the lab portfolio and create a clean repository structure for future lab artefacts.
+
+## Commands
+```bash
+git init
+git status
+
+## Key Results
+
+- Initialized the lab repository successfully
+- Created the base folder structure for labs, docs, evidence, templates, and diagrams
+- Added a starter `README.md` with a simple lab index
+- Added `docs/structure.md` to document the repository layout
+- Confirmed the repo was ready to store future lab artefacts
+
+## What I Learned
+
+A clean repository structure makes the lab easier to maintain and present as a portfolio.  
+This step helped me understand that documentation and organization are part of real IT operational work, not just technical setup.

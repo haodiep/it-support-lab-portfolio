@@ -1,0 +1,22 @@
+# D03 – Linux VM-01 Baseline
+
+## Objective
+Create the first Linux VM, attach NAT and host-only NICs, and save a clean baseline snapshot.
+
+## Commands
+```bash
+ip a
+VBoxManage snapshot "<VM>" take "snap_baseline"
+
+## Key Results
+
+- Created the first Linux VM successfully
+- Attached two NICs: NAT and host-only
+- Verified the VM booted normally
+- Confirmed NAT connectivity and basic network visibility
+- Created a baseline snapshot for rollback and future testing
+
+## What I Learned
+
+Using snapshots is important in lab work because it allows quick recovery after mistakes or configuration changes.  
+I also learned how dual-NIC VMs can separate internal lab traffic from external Internet access.

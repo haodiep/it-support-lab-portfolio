@@ -1,0 +1,26 @@
+# D18 – Test-NetConnection Basics
+
+## Objective
+Practice using `Test-NetConnection` to verify DNS and TCP connectivity instead of guessing.
+
+## Commands
+```powershell
+ipconfig /all
+Test-NetConnection 192.168.56.10 -Port 53
+nslookup google.com
+Test-NetConnection google.com -Port 443
+Test-NetConnection google.com -Port 80
+
+## Key Results
+
+- CL01 received host-only IP `192.168.56.21`
+- DHCP Server: `192.168.56.10`
+- DNS Server: `192.168.56.10`
+- `Test-NetConnection 192.168.56.10 -Port 53` succeeded
+- `nslookup google.com` used `DC01.lab.local`
+- External web tests on ports `443` and `80` succeeded
+
+## What I Learned
+
+`Test-NetConnection` helps confirm whether a service is reachable on a specific port.  
+In this lab, I verified that CL01 could reach DC01 on DNS port 53 over the host-only network, and that external web connectivity worked over NAT.

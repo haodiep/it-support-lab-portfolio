@@ -1,0 +1,21 @@
+# D15 – Windows Network Command Basics
+
+## Objective
+Review core Windows network commands and create a short cheat sheet for basic troubleshooting.
+
+## Commands
+```powershell
+ipconfig /all
+nslookup example.com
+
+## Key Results
+
+- Reviewed core Windows network commands including `ipconfig` and `nslookup`
+- Created a simple cheat sheet for when to use each command
+- Added examples of expected output
+- Improved basic command-line troubleshooting familiarity on Windows
+
+## What I Learned
+
+Troubleshooting becomes more efficient when I know which command fits which problem.  
+This lab helped me start building a practical command reference instead of memorizing commands without context.

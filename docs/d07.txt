@@ -1,0 +1,22 @@
+# D07 – Repo v0.1 and Documentation Templates
+
+## Objective
+Finalize the first usable version of the repository and create reusable documentation templates.
+
+## Commands
+```bash
+git add -A
+git commit -m "D07: repo v0.1"
+git push
+
+## Key Results
+
+- Improved the main `README.md` with clearer structure and navigation
+- Created reusable templates for runbooks and KBs
+- Committed the updated repository state as a cleaner portfolio baseline
+- Standardized how future labs would be documented
+
+## What I Learned
+
+Templates reduce inconsistency and save time during later labs.  
+This step showed me that repeatable documentation is part of operational maturity, especially for support and troubleshooting work.

@@ -1,0 +1,22 @@
+# D06 – Linux VM-02 and Basic Connectivity
+
+## Objective
+Create the second Linux VM, test connectivity between both Linux VMs, and capture ICMP traffic.
+
+## Commands
+```bash
+ip route
+ping -c 3 <peer>
+
+## Key Results
+
+- Created the second Linux VM successfully
+- Configured host-only networking for internal lab communication
+- Verified that both Linux VMs could ping each other
+- Installed Wireshark and captured ICMP traffic
+- Saved the first packet capture as lab evidence
+
+## What I Learned
+
+Packet capture adds proof to connectivity testing instead of relying only on command output.  
+This lab helped me connect basic ping testing with actual packet-level visibility in Wireshark.

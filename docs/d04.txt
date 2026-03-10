@@ -1,0 +1,20 @@
+# D04 – VirtualBox Network Modes Review
+
+## Objective
+Review NAT, bridged, and internal/host-only networking modes and document when to use each one.
+
+## Commands
+```text
+Review 3 networking use cases and write notes
+
+## Key Results
+
+- Reviewed the differences between NAT, bridged, and internal/host-only networking
+- Wrote notes comparing when each mode should be used
+- Documented at least three practical use cases
+- Built a clearer mental model of how VirtualBox network modes affect VM communication
+
+## What I Learned
+
+Different network modes serve different purposes in a lab.  
+This exercise helped me stop treating VM networking as trial and error and start choosing the correct mode based on the goal of the test.

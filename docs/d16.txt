@@ -1,0 +1,21 @@
+# D16 – Windows Network Reset Basics
+
+## Objective
+Practice basic Windows network reset steps and observe the effect on DNS cache and DHCP lease data.
+
+## Commands
+```powershell
+ipconfig /flushdns
+ipconfig /renew
+
+## Key Results
+
+- Practiced using `ipconfig /flushdns` and `ipconfig /renew`
+- Observed the effect of refreshing DNS cache and DHCP lease information
+- Captured before-and-after evidence for comparison
+- Documented a minimal Windows network reset workflow
+
+## What I Learned
+
+Simple reset steps can solve common client-side network issues before deeper troubleshooting is needed.  
+This lab helped me understand how cache and lease refresh actions fit into a practical support workflow.

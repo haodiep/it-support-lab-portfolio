@@ -1,0 +1,21 @@
+# D02 – VirtualBox and Host-Only Network Setup
+
+## Objective
+Install VirtualBox and create the host-only network for the isolated lab environment.
+
+## Commands
+```bash
+VBoxManage list hostonlynets
+
+## Key Results
+
+- Installed VirtualBox successfully on the host machine
+- Created and verified the host-only network `192.168.56.0/24`
+- Confirmed the host IP was `192.168.56.1`
+- Documented the host-only setup in `docs/vbox/host-only.md`
+- Verified that the lab foundation for isolated VM communication was ready
+
+## What I Learned
+
+Host-only networking is useful for building an isolated internal lab without exposing traffic directly to the outside network.  
+This lab helped me understand the difference between host-only connectivity and normal Internet access.

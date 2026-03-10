@@ -1,0 +1,21 @@
+# D08 – IP Plan for the Lab
+
+## Objective
+Create an IP plan for the lab subnet and document addressing for servers, clients, and DNS.
+
+## Commands
+```bash
+ip a
+ipconfig /all
+
+## Key Results
+
+- Created an IP plan for the lab subnet `192.168.56.0/24`
+- Reserved static addresses for servers and defined the client DHCP range
+- Documented gateway and DNS assumptions for the lab
+- Linked the IP plan to the future diagram and network design
+
+## What I Learned
+
+A lab becomes easier to manage when addressing is planned before services are deployed.  
+This exercise helped me understand that IP planning supports troubleshooting, documentation, and future scaling.

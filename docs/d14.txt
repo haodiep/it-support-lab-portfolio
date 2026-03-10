@@ -1,0 +1,20 @@
+# D14 – Network Diagram and No-Internet Checklist
+
+## Objective
+Update the network diagram and create a simple troubleshooting checklist for no-Internet issues.
+
+## Commands
+```text
+Update Mermaid diagram and troubleshooting checklist
+
+## Key Results
+
+- Updated the network diagram to reflect the actual lab NICs and network modes
+- Created a KB-style checklist for “no Internet” troubleshooting
+- Documented the relationship between NAT, host-only, and internal lab paths
+- Improved the lab’s visual documentation
+
+## What I Learned
+
+A diagram makes troubleshooting faster because it shows which path a system is expected to use.  
+I also learned that a checklist helps reduce guesswork during common connectivity problems.

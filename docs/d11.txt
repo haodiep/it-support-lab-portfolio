@@ -1,0 +1,20 @@
+# D11 – Wireshark Capture Filters
+
+## Objective
+Learn how to use capture filters and document sample filters for DNS and DHCP traffic.
+
+## Commands
+```text
+udp port 67 or udp port 68 or port 53
+
+## Key Results
+
+- Practiced using capture filters in Wireshark
+- Recorded sample filters for DHCP, DNS, and other common traffic types
+- Documented the difference between capture filters and display filters
+- Built a small filter reference for later labs
+
+## What I Learned
+
+Capture filters control what gets collected before the traffic is saved, so they must be chosen carefully.  
+This lab helped me understand why capture filters are useful when I want smaller and more focused packet captures.

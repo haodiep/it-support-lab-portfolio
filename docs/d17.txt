@@ -1,0 +1,22 @@
+# D17 – Local User and Event Viewer Basics
+
+## Objective
+Create a local user account, test sign-in, and review Event Viewer for one warning or error.
+
+## Commands
+```powershell
+net user
+Open Event Viewer
+
+## Key Results
+
+- Created a local user account successfully
+- Tested sign-in behavior with the new account
+- Opened Event Viewer and reviewed at least one error or warning
+- Recorded one event ID and added a short explanation
+- Created a small note linking user management and logging basics
+
+## What I Learned
+
+Windows administration is not only about creating users, but also about checking logs when something goes wrong.  
+This lab helped me connect account management with event-based troubleshooting.
