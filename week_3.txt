@@ -1,0 +1,93 @@
+# KB: Windows ACL Access Denied Troubleshooting
+
+## Purpose
+Explain how to troubleshoot a Windows folder access issue caused by NTFS permissions, especially when the user receives **Access denied** even though the network path and server are reachable.
+
+## Scenario
+This applies when a user can connect to the target system or shared folder, but cannot open, create, modify, or save files because of an NTFS permission problem.
+
+In this lab environment, the issue was reproduced from **CL01** while accessing a folder hosted in the Windows lab setup. Basic connectivity worked normally, but file access failed because of an incorrect ACL entry.
+
+## Steps
+1. Confirm the folder or share path is reachable.
+   
+   Check that the server is online and reachable over the network:
+   ```powershell
+   ping 192.168.56.10
+
+## Steps
+1. Verify name resolution if needed.
+
+   Confirm that DNS is working and the client can resolve the server name:
+
+   ```powershell
+   nslookup dc01
+   ```
+
+2. Confirm SMB connectivity before blaming permissions.
+
+   Test whether the file-sharing service is reachable:
+
+   ```powershell
+   Test-NetConnection 192.168.56.10 -Port 445
+   ```
+
+3. Reproduce the problem from the user context.
+
+   Attempt to open the folder, create a file, or modify an existing file.  
+   If the system returns **Access denied**, continue to ACL review.
+
+4. Review the current NTFS permissions on the folder.
+
+   Use `icacls` to inspect the ACL:
+
+   ```powershell
+   icacls C:\lab\share
+   ```
+
+5. Check for explicit Deny entries.
+
+   Look carefully for any permission entry that explicitly denies access to the affected user or group.  
+   An explicit **Deny** can override an **Allow** permission.
+
+6. Compare the ACL with the expected access level.
+
+   Confirm whether the user should have permissions such as:
+   - Read
+   - Modify
+   - Full Control
+
+7. Remove the incorrect permission entry if needed.
+
+   If the problem is caused by a broken ACL entry, remove or correct it using `icacls`.
+
+8. Reapply the correct permission.
+
+   Grant the required permission back to the correct user or group.  
+   Example:
+
+   ```powershell
+   icacls C:\lab\share /grant labuser:(OI)(CI)M
+   ```
+
+9. Validate the fix.
+
+   Test again by creating, reading, or modifying a file in the folder.  
+   Confirm that the user can now access the folder as expected.
+
+10. Document the result.
+
+    Record:
+    - the original symptom
+    - the root cause
+    - the commands used
+    - the final validation result
+
+## Notes
+- Do not assume every file access issue is a network problem.
+- If `ping`, DNS, and port 445 all work, the issue may still be caused by NTFS permissions.
+- An explicit **Deny** entry overrides an **Allow** entry in many common permission scenarios.
+- Always validate connectivity first, then review ACLs.
+- Use `icacls` carefully, because incorrect permission changes can make the issue worse.
+- If possible, keep a rollback path before changing permissions in a live environment.
+- In this lab, the issue was not caused by DHCP, DNS, or host-only networking. The root cause was the NTFS ACL.

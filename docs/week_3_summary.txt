@@ -1,0 +1,43 @@
+## Week 3 Summary (D15–D21)
+
+### Focus
+- Windows networking commands and troubleshooting basics
+- DNS and DHCP reset actions on Windows
+- Local user creation and basic log review
+- PowerShell connectivity testing with `Test-NetConnection`
+- NTFS permissions and ACL troubleshooting
+- Documentation of permission-related support cases
+
+### Key Achievements
+- Created a Windows network command cheat sheet
+- Practiced `ipconfig`, `nslookup`, and basic network verification on Windows
+- Performed DNS flush and DHCP renew testing
+- Created a local Windows user and reviewed Event Viewer entries
+- Used `Test-NetConnection` to verify TCP connectivity instead of guessing
+- Reviewed folder permissions with `icacls`
+- Reproduced and fixed an **Access denied** issue caused by an ACL misconfiguration
+- Added Week 3 knowledge base documentation
+
+### Skills Practiced
+- Windows CLI troubleshooting
+- DNS and DHCP validation
+- Event log inspection
+- PowerShell diagnostic workflow
+- NTFS permission review with `icacls`
+- Identifying **Deny vs Allow** behavior in ACLs
+- Writing KB-style technical documentation
+
+### Challenges & Lessons
+- Learned that successful network connectivity does not guarantee file access
+- Confirmed that **Access denied** can be caused by NTFS permissions even when DNS and SMB are working
+- Improved confidence using `Test-NetConnection` for service validation
+- Reinforced that explicit **Deny** permissions can override expected access
+- Saw the importance of documenting not only the fix, but also the validation steps and root cause
+
+### Next Week Plan (D22–D28)
+- Start PowerShell basics with `Get-Help`
+- Practice pipeline usage for process and service filtering
+- Build a simple PowerShell support pack script
+- Create a skill-to-cert mapping page
+- Draft and refine the first lab portfolio blog post
+- Prepare CV v1 and an applications tracker
