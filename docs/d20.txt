@@ -1,0 +1,38 @@
+# D20 – Access Denied on SMB Share Due to NTFS ACL
+
+## Objective
+Reproduce and fix an **Access denied** issue on a shared folder by using NTFS ACL permissions in a domain environment.
+
+## Commands
+```cmd
+:: On DC01
+icacls C:\Shares\LabData
+icacls C:\Shares\LabData /deny "LAB\staff.tom":(OI)(CI)M
+icacls C:\Shares\LabData /remove:d "LAB\staff.tom"
+icacls C:\Shares\LabData /grant "LAB\staff.tom":(OI)(CI)M
+Get-SmbShareAccess -Name "LabData"
+
+:: On CL01
+ping dc01
+nslookup dc01
+Test-NetConnection dc01 -Port 445
+echo blocked > \\dc01\LabData\fail.txt
+echo fixed > \\dc01\LabData\fixed.txt
+type \\dc01\LabData\fixed.txt
+whoami
+
+## Key Results
+
+- Verified baseline access to `\\dc01\LabData` from CL01
+- Confirmed that `lab\staff.tom` could create a file before introducing the fault
+- Reproduced an **Access denied** issue by adding an explicit **Deny** NTFS ACL entry
+- Verified that ping, DNS resolution, and SMB port 445 connectivity were all working
+- Identified the NTFS deny entry as the root cause of the issue
+- Removed the deny entry and restored Modify permission for `lab\staff.tom`
+- Validated the fix by creating and reading `fixed.txt` from the shared folder
+
+## What I Learned
+
+This lab helped me understand how to troubleshoot a shared folder access problem in a Windows domain environment.  
+I learned that a user can still reach the server over the network and resolve DNS correctly, but still get **Access denied** because of NTFS permissions.  
+I also learned that an explicit **Deny** entry overrides an Allow permission, which makes ACL review an important part of Windows file access troubleshooting.

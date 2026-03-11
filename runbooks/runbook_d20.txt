@@ -1,0 +1,127 @@
+# Runbook: Access Denied on SMB Share Due to NTFS ACL
+
+## Symptom
+User `lab\staff.tom` could not access the shared folder `\\dc01\LabData` from CL01.  
+When trying to open the share, Windows displayed **You do not have permission to access `\\dc01\LabData`**.  
+When trying to create a file from Command Prompt, the system returned **Access is denied**.
+
+## Environment
+- Host: Windows 11
+- Hypervisor: VirtualBox
+- Host-only network: `192.168.56.0/24`
+- Domain Controller: `DC01`
+  - OS: Windows Server
+  - Host-only IP: `192.168.56.10`
+  - Roles: AD DS, DNS, DHCP
+- Client: `CL01`
+  - OS: Windows client
+  - Host-only IP from DHCP: `192.168.56.21`
+  - Joined to domain: `lab.local`
+- Shared folder on DC01: `C:\Shares\LabData`
+- SMB share path: `\\dc01\LabData`
+- Test account: `lab\staff.tom`
+
+## Root Cause
+An explicit **Deny** NTFS ACL entry was added for `LAB\staff.tom` on the folder `C:\Shares\LabData`.  
+This deny entry overrode the existing Allow permission and blocked the user from accessing the SMB share, even though:
+- network connectivity was working
+- DNS resolution was working
+- SMB port 445 was reachable
+
+## Resolution
+1. On **DC01**, review the NTFS permissions on the shared folder:
+
+   ```cmd
+   icacls C:\Shares\LabData
+
+2. Confirm that the ACL contains a deny entry similar to:
+
+```text
+LAB\staff.tom:(OI)(CI)(DENY)(M)
+```
+
+3. Remove the deny entry:
+
+```cmd
+icacls C:\Shares\LabData /remove:d "LAB\staff.tom"
+```
+
+4. Verify that the deny entry has been removed:
+
+```cmd
+icacls C:\Shares\LabData
+```
+
+5. Reapply the required Modify permission for the user:
+
+```cmd
+icacls C:\Shares\LabData /grant "LAB\staff.tom":(OI)(CI)M
+```
+
+6. If needed, confirm the SMB share access settings:
+
+```powershell
+Get-SmbShareAccess -Name "LabData"
+```
+
+## Validation
+
+1. From CL01, verify network connectivity:
+
+```cmd
+ping dc01
+nslookup dc01
+```
+
+2. From CL01 PowerShell, verify SMB connectivity:
+
+```powershell
+Test-NetConnection dc01 -Port 445
+```
+
+3. Access the share:
+
+```text
+\\dc01\LabData
+```
+
+4. Create a test file:
+
+```cmd
+echo fixed > \\dc01\LabData\fixed.txt
+```
+
+5. Read the file back:
+
+```cmd
+type \\dc01\LabData\fixed.txt
+```
+
+6. Confirm that:
+
+- the share opens successfully
+- the file is created successfully
+- the file content can be read
+- no **Access denied** message appears
+
+## Rollback
+
+1. If the fix fails or permissions need to be reset, remove both explicit allow and deny entries for the user:
+
+```cmd
+icacls C:\Shares\LabData /remove:g "LAB\staff.tom"
+icacls C:\Shares\LabData /remove:d "LAB\staff.tom"
+```
+
+2. If required, reapply the original intended permission:
+
+```cmd
+icacls C:\Shares\LabData /grant "LAB\staff.tom":(OI)(CI)M
+```
+
+3. If the issue appears to be related to SMB share permissions instead of NTFS, review and reapply share access:
+
+```powershell
+Grant-SmbShareAccess -Name "LabData" -AccountName "Authenticated Users" -AccessRight Change -Force
+Get-SmbShareAccess -Name "LabData"
+```
