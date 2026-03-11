@@ -1,0 +1,40 @@
+# D19 – icacls Basics
+
+## Objective
+Practice using `icacls` to view and modify NTFS permissions, and understand how Allow and Deny affect user access.
+
+## Commands
+```cmd
+whoami
+mkdir C:\lab
+mkdir C:\lab\share
+echo D19 permission test > C:\lab\share\note.txt
+echo second file > C:\lab\share\file2.txt
+icacls C:\lab\share
+icacls C:\lab\share /grant labuser:(OI)(CI)M
+icacls C:\lab\share /deny labuser:(OI)(CI)M
+icacls C:\lab\share /deny labuser:(OI)(CI)W
+icacls C:\lab\share
+icacls C:\lab\share /remove labuser
+icacls C:\lab\share /grant labuser:(OI)(CI)M
+icacls C:\lab\share
+dir C:\lab\share
+type C:\lab\share\note.txt
+echo hello > C:\lab\share\test.txt
+echo append >> C:\lab\share\note.txt
+
+## Key Results
+
+- Performed the lab on `CL01` using the existing local user `labuser`
+- Created the test folder `C:\lab\share`
+- Used `icacls` to view the current ACL on the folder
+- Granted `labuser` `Modify` permission with `(OI)(CI)` inheritance
+- Added explicit `Deny` rules for `labuser` to simulate an access problem
+- Confirmed that `labuser` received **Access denied** in both CLI and File Explorer
+- Removed the broken ACL entry and restored `Modify` permission for `labuser`
+
+## What I Learned
+
+`icacls` can be used to check and change NTFS permissions from the command line.  
+In this lab, I learned that explicit `Deny` rules can block a user from reading, creating, or modifying files, even when the folder exists.  
+I also learned that inheritance flags such as `(OI)` and `(CI)` are important when applying permissions to child files and folders.
