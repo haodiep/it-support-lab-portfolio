@@ -1,0 +1,47 @@
+# PowerShell Help System
+
+## Overview
+This note was created during D22 to practice using the PowerShell help system.
+
+## Commands Reviewed
+
+### Get-Help Get-Process
+Shows basic help information for the `Get-Process` command.
+
+### Get-Help Get-Process -Examples
+Shows example usage for `Get-Process`.
+
+### Get-Help Get-Process -Full
+Shows detailed help for `Get-Process`, including syntax, parameters, and notes.
+
+### Get-Help Get-Service -Examples
+Shows example usage for `Get-Service`.
+
+### Get-Help Test-NetConnection -Examples
+Shows example usage for `Test-NetConnection`.
+
+## Notes
+
+### When to use Get-Help
+Use `Get-Help` when:
+- you do not remember what a command does
+- you want to confirm syntax
+- you want to see practical examples
+- you want to understand available parameters
+
+### Difference between -Examples and -Full
+- `-Examples`: shows practical command examples quickly
+- `-Full`: shows detailed command reference and parameters
+
+## Lab Relevance
+In the current lab, PowerShell help is useful on CL01 to learn commands related to:
+- process checks
+- service checks
+- network troubleshooting
+
+For example, `Test-NetConnection` is useful in this environment to test services on DC01 such as DNS or SMB.
+
+## Example Follow-up Commands
+```powershell
+Test-NetConnection 192.168.56.10 -Port 53
+Test-NetConnection 192.168.56.10 -Port 445

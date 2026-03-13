@@ -1,0 +1,25 @@
+# D22 – PowerShell Help System
+
+## Objective
+Learn how to use the PowerShell help system to understand commands, syntax, and examples instead of guessing.
+
+## Commands
+```powershell
+Get-Help Get-Process
+Get-Help Get-Process -Examples
+Get-Help Get-Process -Full
+Get-Help Get-Service -Examples
+Get-Help Test-NetConnection -Examples
+
+## Key Results
+Verified that `Get-Help` can display basic command information and syntax
+Used -Examples to quickly review practical usage of PowerShell commands
+Used -Full to view more detailed help information, including parameters and descriptions
+Reviewed help for `Get-Process`, `Get-Service`, and `Test-NetConnection`
+Confirmed that the PowerShell help system is useful for real troubleshooting work on CL01
+
+## What I Learned
+The PowerShell help system is useful when I do not remember a command clearly or want to confirm the correct syntax before using it.
+I learned that -Examples is the fastest way to understand how a command is normally used in practice.
+I also learned that -Full gives more detailed information, which is helpful when I want to understand parameters and command behavior more deeply.
+This lab helped me build the habit of checking command help first instead of guessing.
