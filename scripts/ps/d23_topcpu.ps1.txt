@@ -1,0 +1,1 @@
+Get-Process | Sort-Object CPU -Descending | Select-Object -First 10 Name, Id, CPU | Out-File C:\lab\evidence\d23_topcpu.txt
